@@ -230,6 +230,7 @@
       background: var(--white); border-radius: var(--radius);
       border: 2px solid var(--green);
       padding: 20px; cursor: pointer;
+      position: relative;
       transition: all .2s; position: relative;
       box-shadow: 0 2px 8px rgba(0,0,0,.12);
     }
@@ -288,6 +289,7 @@
       font-size: 10px; font-weight: 800;
       min-width: 18px; height: 18px; border-radius: 9px;
       padding: 0 4px;
+      pointer-events: none;
       animation: pulse-badge 2s infinite;
     }
     .sc-badge.hidden { display: none; }
@@ -3574,6 +3576,8 @@ function showPage(id) {
   // Init date fields
   if (id === 'rlst') document.getElementById('rlst-data_comp').valueAsDate = new Date();
   if (id === 'not') document.getElementById('not-data_com').valueAsDate = new Date();
+  // Notizie
+  if (id === 'notizie') { loadNews(); checkNotifStatus(); }
 }
 
 function toggleSidebar() {
@@ -4299,16 +4303,6 @@ async function checkNotifStatus() {
     updateNotifButton(!!sub);
     if (sub) document.getElementById('notif-status').textContent = '✓ Notifiche attive su questo dispositivo';
   } catch {}
-}
-
-// ── Hook su showPage per caricare le notizie ──────────
-const _origShowPage = showPage;
-function showPage(id) {
-  _origShowPage(id);
-  if (id === 'notizie') {
-    loadNews();
-    checkNotifStatus();
-  }
 }
 
 // ── Controlla notizie in background (ogni 30 min) ─────
